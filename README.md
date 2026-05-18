@@ -27,6 +27,33 @@ The voicing/dewhispering audio samples can be found in the [whispersegan samples
 
 SEGAN+ generator weights are released and can be downloaded in [this link](http://veu.talp.cat/seganp/release_weights/segan+_generator.ckpt). Make sure you place this file into the `ckpt_segan+` directory to make it work with the proper `train.opts` config file within that folder. The script `run_segan+_clean.sh` will properly read the ckpt in that directory as it is configured to be used with this referenced file.
 
+# Datos para entrenamiento 
+
+Descargar dataset FMA, disponible en [repositorio](https://github.com/mdeff/fma#). 
+Guardar el dataset en data/raw_audio/ dentro de una carpeta
+
+Para convertir MP3s a WAVs adecuados ejecutar(banderas opcionales): 
+
+```
+python preprocess_fma.py --src data/raw_audio/fma_small \
+		--dst data/clean_trainset \
+		--noisy_trainset data/noisy_trainset \
+		--cache_dir data/cache
+```
+
+Para generar pares noisy primero se requiere descargar dataset [DEMAND](https://www.kaggle.com/datasets/chrisfilo/demand). Este tendrá que aplanarse y guardarse en data/raw_audio/ dentro de una carpeta. Yo utilicé únicamente uno de cada categoria. \
+Después para generar pares clean/noisy ejecutar(banderas opcionales):
+
+```
+python make_noisy.py --clean_dir data/clean_fma \
+		--noises_dir data/raw_audio/demand \
+		--out_root data \
+		--snr_levels 0 5 10 15 \ 
+		--valid_ratio 0.1 \ 
+		--workers 4 \ 
+		--seed 111 
+```
+
 ### Introduction to scripts
 
 Two models are ready to train and use to make wav2wav speech enhancement conversions. SEGAN+ is an

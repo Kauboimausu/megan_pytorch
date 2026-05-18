@@ -1,8 +1,12 @@
 import torch
 import torch.optim as optim
 from torch.optim import lr_scheduler
-from ahoproc_tools.io import *
-from ahoproc_tools.interpolate import *
+try:
+    from ahoproc_tools.io import *
+    from ahoproc_tools.interpolate import *
+except ImportError:
+    # Optional: only used by F0/aco-related helpers we don't exercise.
+    pass
 import multiprocessing as mp
 from scipy.io import wavfile
 import tempfile

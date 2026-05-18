@@ -77,7 +77,7 @@ class Additive(object):
         if isinstance(wav, torch.Tensor):
             wav = wav.numpy()
         noise_idx = np.random.choice(list(range(len(self.noises))), 1)
-        sel_noise = self.noises[np.asscalar(noise_idx)]
+        sel_noise = self.noises[int(noise_idx.item())]
         noise = sel_noise['data']
         snr = np.random.choice(self.snr_levels, 1)
         # print('Applying SNR: {} dB'.format(snr[0]))
@@ -114,7 +114,7 @@ class Additive(object):
             raise ValueError('Noise length has to be greater than speech '
                              'length!')
         rand_start_limit = int(noise_len - x_len + 1)
-        rand_start = int(np.round((rand_start_limit - 1) * np.random.rand(1) \
+        rand_start = int(np.round((rand_start_limit - 1) * np.random.rand() \
                                   + 1))
         noise_segment = noise[rand_start:rand_start + x_len]
         noise_bounds = (rand_start, rand_start + x_len)

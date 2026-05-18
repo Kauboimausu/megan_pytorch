@@ -13,8 +13,13 @@ import numpy as np
 import multiprocessing as mp
 import random
 import librosa
-from ahoproc_tools.io import *
-from ahoproc_tools.interpolate import *
+try:
+    from ahoproc_tools.io import *
+    from ahoproc_tools.interpolate import *
+except ImportError:
+    # ahoproc_tools is only required by RandomChunkSEF0Dataset (F0 conversion).
+    # The SE pipeline (SEDataset / SEH5Dataset) does not need it.
+    pass
 import h5py
 
 
