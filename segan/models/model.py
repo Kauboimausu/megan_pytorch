@@ -410,12 +410,17 @@ class SEGAN(Model):
                     evals[k] += v
                     self.writer.add_scalar('Genh-{}'.format(k), 
                                            evals[k][-1], epoch)
-                val_obj = evals['covl'][-1] + evals['pesq'][-1] + \
-                        evals['ssnr'][-1]
+                """ val_obj = evals['covl'][-1] + evals['pesq'][-1] + \
+                        evals['ssnr'][-1] """
+                val_obj = evals['si_sdr'][-1] + evals['snr'][-1] + \
+                        evals['psnr'][-1]
                 self.writer.add_scalar('Genh-val_obj',
                                        val_obj, epoch)
                 if val_obj > best_val_obj:
-                    print('Val obj (COVL + SSNR + PESQ) improved '
+                    """ print('Val obj (COVL + SSNR + PESQ) improved '
+                          '{} -> {}'.format(best_val_obj,
+                                            val_obj)) """
+                    print('Val obj (SI_SDR + SNR + PSNR) improved '
                           '{} -> {}'.format(best_val_obj,
                                             val_obj))
                     best_val_obj = val_obj
@@ -439,18 +444,20 @@ class SEGAN(Model):
 
     def evaluate(self, opts, dloader, log_freq, do_noisy=False,
                  max_samples=1, device='cpu'):
-        """ Objective evaluation with PESQ, SSNR, COVL, CBAK and CSIG """
+        """ Objective evaluation with SI_SDR, SNR, PSNR """
         self.G.eval()
         self.D.eval()
-        evals = {'pesq':[], 'ssnr':[], 'csig':[],
+        """ evals = {'pesq':[], 'ssnr':[], 'csig':[],
                  'cbak':[], 'covl':[]}
         pesqs = []
-        ssnrs = []
+        ssnrs = [] """
+        evals = {"si_sdr": [], "snr": [], "psnr": []}
         if do_noisy:
-            noisy_evals = {'pesq':[], 'ssnr':[], 'csig':[],
+            """ noisy_evals = {'pesq':[], 'ssnr':[], 'csig':[],
                            'cbak':[], 'covl':[]}
             npesqs = []
-            nssnrs = []
+            nssnrs = [] """
+            noisy_evals = {"si_sdr": [], "snr": [], "psnr": []}
         if not hasattr(self, 'pool'):
             self.pool = mp.Pool(opts.eval_workers)
         total_s = 0
@@ -485,7 +492,8 @@ class SEGAN(Model):
                 else:
                     args = [(clean_npy[i], Genh_npy[i], None) for i in \
                             range(clean.size(0))]
-                map_ret = self.pool.map(composite_helper, args)
+                #map_ret = self.pool.map(composite_helper, args)
+                map_ret = self.pool.map(composite_music_helper, args)
                 end_t = timeit.default_timer()
                 print('Time to process eval with {} samples ' \
                       ': {} s'.format(clean.size(0), end_t - beg_t))

@@ -56,7 +56,7 @@ def main():
     parser.add_argument("--clean_dir", default="data/clean_fma")
     parser.add_argument("--noises_dir", default="data/raw_audio/demand")
     parser.add_argument("--out_root", default="data")
-    parser.add_argument("--snr_levels", type=int, nargs='+' default=[0, 5, 10, 15])
+    parser.add_argument("--snr_levels", type=int, nargs='+', default=[0, 5, 10, 15])
     parser.add_argument("--valid_ratio", type=float, default=0.1)
     parser.add_argument("--test_ratio", type=float, default=0.1)
     parser.add_argument(

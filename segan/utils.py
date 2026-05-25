@@ -47,6 +47,9 @@ def make_divN(tensor, N, method="zeros"):
 def composite_helper(args):
     return eval_composite(*args)
 
+def composite_music_helper(args):
+    return eval_composite_music(*args)
+
 
 class ComposeAdditive(object):
 
@@ -346,11 +349,11 @@ def eval_composite(clean_utt, Genh_utt, noisy_utt=None):
 def eval_composite_music(clean_utt, Genh_utt, noisy_utt=None):
     clean_utt = clean_utt.reshape(-1)
     Genh_utt = Genh_utt.reshape(-1)
-    si_sdr, snr, psnr = CompositeEvalMusic(clean_utt, Genh_utt, True)
+    si_sdr, snr, psnr = CompositeEvalMusic(clean_utt, Genh_utt)
     evals = {"si_sdr": si_sdr, "snr": snr, "psnr": psnr}
     if noisy_utt is not None:
         noisy_utt = noisy_utt.reshape(-1)
-        si_sdr, snr, psnr = CompositeEvalMusic(clean_utt, noisy_utt, True)
+        si_sdr, snr, psnr = CompositeEvalMusic(clean_utt, noisy_utt)
         return evals, {"si_sdr": si_sdr, "snr": snr, "psnr": psnr}
     else:
         return evals
@@ -500,7 +503,7 @@ def CompositeEval(ref_wav, deg_wav, log_all=False):
         return Csig, Cbak, Covl
 
 
-def CompositeEvalMusic(ref_wav, deg_wav, log_all=False):
+def CompositeEvalMusic(ref_wav, deg_wav):
     len_ = min(ref_wav.shape[0], deg_wav.shape[0])
     ref_wav = ref_wav[:len_]
     deg_wav = deg_wav[:len_]
