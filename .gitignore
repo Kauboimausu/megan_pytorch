@@ -108,3 +108,5 @@ data/
 
 # Datos de ejecuciones
 runs/
+data_tmp/
+data_cache/
