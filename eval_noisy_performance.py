@@ -25,8 +25,8 @@ def main(opts):
     for n_i, noisy_wav in enumerate(noisy_wavs, start=1):
         bname = os.path.splitext(os.path.basename(noisy_wav))[0]
         clean_wav = os.path.join(CLEAN_TEST_PATH, bname + '.wav')
-        noisy, rate = librosa.load(noisy_wav, 16000)
-        clean, rate = librosa.load(clean_wav, 16000)
+        noisy, rate = librosa.load(noisy_wav, sr=16000)
+        clean, rate = librosa.load(clean_wav, sr=16000)
         #rate, noisy = wavfile.read(noisy_wav)
         #rate, clean = wavfile.read(clean_wav)
         beg_t = timeit.default_timer()

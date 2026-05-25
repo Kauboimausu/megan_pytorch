@@ -105,3 +105,6 @@ venv.bak/
 
 # Datos
 data/
+
+# Datos de ejecuciones
+runs/

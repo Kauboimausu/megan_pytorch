@@ -63,7 +63,7 @@ def main():
     os.makedirs(opts.dst, exist_ok=True)
     mp3_paths = sorted(glob.glob(os.path.join(opts.src, "*", "*.mp3")))
     print(
-        "Se encontraron {} archivos mp3 en dirección".format(len(mp3_paths), opts.src)
+        f"Se encontraron {len(mp3_paths)} archivos mp3 en dirección {opts.src}"
     )
     if not mp3_paths:
         raise SystemExit("No se encontraron archivos mp3.")
@@ -80,10 +80,10 @@ def main():
                 skipped += 1
             else:
                 errored += 1
-                print("[{}] {}".format(track_id, status))
+                print(f"[{track_id}] {status}")
             if i % 200 == 0 or i == len(tasks):
                 print(
-                    f"{i}/{len(tasks)}, ok={ok}, saltadas={skipped}, errores={errored}"
+                    f"{i}/{len(tasks)}, ok={ok}, saltados={skipped}, errores={errored}"
                 )
 
     print(f"Terminado. Escribió {ok} .wavs en {opts.dst}")

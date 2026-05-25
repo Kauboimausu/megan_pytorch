@@ -74,7 +74,7 @@ def slice_signal_index(path, window_size, stride):
         # Returns
             A list of tuples (beg, end) sample indexes
     """
-    signal, rate = librosa.load(path, 16000)
+    signal, rate = librosa.load(path, sr=16000)
     assert stride <= 1, stride
     assert stride > 0, stride
     assert signal.ndim == 1, signal.ndim
@@ -410,7 +410,7 @@ class RandomChunkSEDataset(Dataset):
 
     def read_wav_file(self, wavfilename):
         #rate, wav = wavfile.read(wavfilename)
-        wav, rate = librosa.load(wavfilename, 16000)
+        wav, rate = librosa.load(wavfilename, sr=16000)
 
         #wav = abs_short_normalize_wave_minmax(wav)
         wav = pre_emphasize(wav, self.preemph)
