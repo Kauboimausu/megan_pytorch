@@ -10,6 +10,7 @@ python -u train.py --save_path runs/megan_base_cloud \
     --max_samples 1500 \
     --batch_size 50 \
     --vanilla_gan \
+    --li_weight 0 \
     --g_lr 0.0002 \
     --d_lr 0.0002 \
     --genc_fmaps    64 128 256 512 1024 2048 \

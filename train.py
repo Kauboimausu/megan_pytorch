@@ -91,7 +91,10 @@ def main(opts):
                                 collate_fn=collate_fn)
     else:
         va_dloader = None
-    criterion = nn.MSELoss()
+    if opts.vanilla_gan:
+        criterion = nn.BCEWithLogitsLoss()
+    else:
+        criterion = nn.MSELoss()
     segan.train(opts, dloader, criterion, opts.l1_weight,
                 opts.l1_dec_step, opts.l1_dec_epoch,
                 opts.save_freq,
