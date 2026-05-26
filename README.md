@@ -41,18 +41,29 @@ python preprocess_fma.py --src data/raw_audio/fma_small \
 		--cache_dir data/cache
 ```
 
-Para generar pares noisy primero se requiere descargar dataset [DEMAND](https://www.kaggle.com/datasets/chrisfilo/demand). Este tendrá que aplanarse y guardarse en data/raw_audio/ dentro de una carpeta. Yo utilicé únicamente uno de cada categoria. \
+Para generar pares noisy primero se requiere descargar dataset [MUSAN](https://huggingface.co/datasets/FluidInference/musan/tree/main). Este tendrá que aplanarse y guardarse en data/raw_audio/ dentro de una carpeta. Yo utilicé únicamente uno de cada categoria. \
 Después para generar pares clean/noisy ejecutar(banderas opcionales):
 
 ```
-python make_noisy.py --clean_dir data/clean_fma \
-		--noises_dir data/raw_audio/demand \
+python make_noisy.py --clean_dir data/raw_audio/clean_fma \
+		--noises_dir data/raw_audio/musan_noise \
 		--out_root data \
-		--snr_levels 0 5 10 15 \ 
-		--valid_ratio 0.1 \ 
-		--workers 4 \ 
+		--snr_levels 0 5 10 15 \
+		--valid_ratio 0.1 \
+		--test_ratio 0.1 \
+		--workers 4 \
 		--seed 111 
 ```
+
+Aparte yo trabajé únicamente con 1875 .wavs en total, con el split esto nos da aproximadamente 1500 de entrenamiento,
+se pueden borrar en terminal con los siguientes comandos dentro del directorio de audios musicales limpios en .wav: 
+
+```
+ls *.wav | sort | tail -n +1876 | xargs -I{} rm {}
+ls *.wav | wc -l 
+```
+
+El primero borra los primeros 1875 (asegurarse de añadir 1), el segundo verifica cuántos archivos hay en el directorio actual.
 
 ### Introduction to scripts
 
