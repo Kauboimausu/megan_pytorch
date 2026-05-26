@@ -9,8 +9,6 @@ python -u train.py --save_path runs/megan_lsgan_reduced2_cloud \
     --epoch 86 \
     --max_samples 1500 \
     --batch_size 150 \
-    --g_lr 0.0002 \
-    --d_lr 0.0002 \
     --genc_fmaps    64 128 256 512 \
     --genc_poolings 4  4   4   4   \
     --gdec_poolings 4  4   4   4   \

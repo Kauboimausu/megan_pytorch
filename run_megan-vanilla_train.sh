@@ -11,8 +11,6 @@ python -u train.py --save_path runs/megan_base_cloud \
     --batch_size 50 \
     --vanilla_gan \
     --l1_weight 0 \
-    --g_lr 0.0002 \
-    --d_lr 0.0002 \
     --genc_fmaps    64 128 256 512 1024 2048 \
     --genc_poolings 4  4   4   4   2    2    \
     --gdec_poolings 2  2   4   4   4    4    \
