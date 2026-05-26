@@ -414,15 +414,14 @@ class SEGAN(Model):
                                            evals[k][-1], epoch)
                 """ val_obj = evals['covl'][-1] + evals['pesq'][-1] + \
                         evals['ssnr'][-1] """
-                val_obj = evals['si_sdr'][-1] + evals['snr'][-1] + \
-                        evals['psnr'][-1]
+                val_obj = evals['si_sdr'][-1] + evals['snr'][-1]
                 self.writer.add_scalar('Genh-val_obj',
                                        val_obj, epoch)
                 if val_obj > best_val_obj:
                     """ print('Val obj (COVL + SSNR + PESQ) improved '
                           '{} -> {}'.format(best_val_obj,
                                             val_obj)) """
-                    print('Val obj (SI_SDR + SNR + PSNR) improved '
+                    print('Val obj (SI_SDR + SNR) improved '
                           '{} -> {}'.format(best_val_obj,
                                             val_obj))
                     best_val_obj = val_obj
@@ -446,20 +445,20 @@ class SEGAN(Model):
 
     def evaluate(self, opts, dloader, log_freq, do_noisy=False,
                  max_samples=1, device='cpu'):
-        """ Objective evaluation with SI_SDR, SNR, PSNR """
+        """ Objective evaluation with SI_SDR, SNR"""
         self.G.eval()
         self.D.eval()
         """ evals = {'pesq':[], 'ssnr':[], 'csig':[],
                  'cbak':[], 'covl':[]}
         pesqs = []
         ssnrs = [] """
-        evals = {"si_sdr": [], "snr": [], "psnr": []}
+        evals = {"si_sdr": [], "snr": []}
         if do_noisy:
             """ noisy_evals = {'pesq':[], 'ssnr':[], 'csig':[],
                            'cbak':[], 'covl':[]}
             npesqs = []
             nssnrs = [] """
-            noisy_evals = {"si_sdr": [], "snr": [], "psnr": []}
+            noisy_evals = {"si_sdr": [], "snr": []}
         if not hasattr(self, 'pool'):
             self.pool = mp.Pool(opts.eval_workers)
         total_s = 0

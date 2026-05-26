@@ -16,12 +16,12 @@ def main(opts):
     noisy_wavs = glob.glob(os.path.join(NOISY_TEST_PATH, '*.wav'))
     # Métricas para el modelo base
     # metrics = {'csig':[], 'cbak':[], 'covl':[]} 
-    metrics = {"si_sdr": [], "snr": [], "psnr": []}
+    metrics = {"si_sdr": [], "snr": []}
     timings = []
     #out_log = open('eval_noisy.log', 'w')
     out_log = open(opts.logfile, 'w')
     #out_log.write('FILE CSIG CBAK COVL PESQ SSNR\n')
-    out_log.write('FILE SISDR SNR PSNR\n')
+    out_log.write('FILE SISDR SNR\n')
     for n_i, noisy_wav in enumerate(noisy_wavs, start=1):
         bname = os.path.splitext(os.path.basename(noisy_wav))[0]
         clean_wav = os.path.join(CLEAN_TEST_PATH, bname + '.wav')
@@ -31,7 +31,7 @@ def main(opts):
         #rate, clean = wavfile.read(clean_wav)
         beg_t = timeit.default_timer()
         #csig, cbak, covl, pesq, ssnr = CompositeEval(clean, noisy, True)
-        si_sdr, snr, psnr = CompositeEvalMusic(clean, noisy)
+        si_sdr, snr = CompositeEvalMusic(clean, noisy)
         end_t = timeit.default_timer()
         timings.append(end_t - beg_t)
         #metrics['csig'].append(csig)
@@ -39,17 +39,16 @@ def main(opts):
         #metrics['covl'].append(covl)
         metrics["si_sdr"].append(si_sdr)
         metrics["snr"].append(snr)
-        metrics["psnr"].append(psnr)
+        #metrics["psnr"].append(psnr)
         """ out_log.write('{} {:.3f} {:.3f} {:.3f} {:.3f} {:.3}\n'.format(bname + '.wav', 
                                                                       csig, 
                                                                       cbak, 
                                                                       covl,
                                                                       pesq,
                                                                       ssnr)) """
-        out_log.write('{} {:.3f} {:.3f} {:.3f}\n'.format(bname + '.wav', 
+        out_log.write('{} {:.3f} {:.3f}\n'.format(bname + '.wav', 
                                                                       si_sdr, 
-                                                                      snr, 
-                                                                      psnr))
+                                                                      snr))
         """ print('Processed {}/{} wav, CSIG:{:.3f} CBAK:{:.3f} COVL:{:.3f} '
               'PESQ:{:.3f} SSNR:{:.3f} '
               'total time: {:.2f} seconds, mproc: {:.2f}'
@@ -57,9 +56,9 @@ def main(opts):
                                 pesq, ssnr,
                                 np.sum(timings),
                                 np.mean(timings))) """
-        print('Processed {}/{} wav, SI SDR:{:.3f} SNR:{:.3f} PSNR:{:.3f} '
+        print('Processed {}/{} wav, SI SDR:{:.3f}, SNR:{:.3f}'
               'total time: {:.2f} seconds, mproc: {:.2f}'
-              ' seconds'.format(n_i, len(noisy_wavs), si_sdr, snr, psnr,
+              ' seconds'.format(n_i, len(noisy_wavs), si_sdr, snr,
                                 np.sum(timings),
                                 np.mean(timings)))
     out_log.close()
@@ -70,7 +69,7 @@ def main(opts):
 
     print('mean SI_SDR: ', np.mean(metrics["si_sdr"]))
     print('mean SNR: ', np.mean(metrics['snr']))
-    print('mean PSNR: ', np.mean(metrics['psnr']))
+    #print('mean PSNR: ', np.mean(metrics['psnr']))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

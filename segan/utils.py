@@ -349,12 +349,14 @@ def eval_composite(clean_utt, Genh_utt, noisy_utt=None):
 def eval_composite_music(clean_utt, Genh_utt, noisy_utt=None):
     clean_utt = clean_utt.reshape(-1)
     Genh_utt = Genh_utt.reshape(-1)
-    si_sdr, snr, psnr = CompositeEvalMusic(clean_utt, Genh_utt)
-    evals = {"si_sdr": si_sdr, "snr": snr, "psnr": psnr}
+    si_sdr, snr = CompositeEvalMusic(clean_utt, Genh_utt)
+    evals = {"si_sdr": si_sdr, "snr": snr}
     if noisy_utt is not None:
         noisy_utt = noisy_utt.reshape(-1)
-        si_sdr, snr, psnr = CompositeEvalMusic(clean_utt, noisy_utt)
-        return evals, {"si_sdr": si_sdr, "snr": snr, "psnr": psnr}
+        si_sdr, snr = CompositeEvalMusic(clean_utt, noisy_utt)
+        #si_sdr, snr, psnr = CompositeEvalMusic(clean_utt, noisy_utt)
+        #return evals, {"si_sdr": si_sdr, "snr": snr, "psnr": psnr}
+        return evals, {"si_sdr": si_sdr, "snr": snr}
     else:
         return evals
 
@@ -449,9 +451,10 @@ def SI_SDR(ref_wav, deg_wav):
     return float(scale_invariant_signal_distortion_ratio(deg, ref))
 
 
-def PSNR(ref_wav, deg_wav, peak=1):
+def PSNR(ref_wav, deg_wav):
     ref = np.asarray(ref_wav, dtype=np.float32).reshape(-1)
     deg = np.asarray(deg_wav, dtype=np.float32).reshape(-1)
+    peak = max(np.abs(ref).max(), 1e-10)
     mse = np.mean((ref - deg) ** 2)
 
     return 10 * np.log10(peak**2 / (mse + 1e-10))
@@ -509,8 +512,9 @@ def CompositeEvalMusic(ref_wav, deg_wav):
     deg_wav = deg_wav[:len_]
     si_sdr = SI_SDR(ref_wav, deg_wav)
     snr = SNR(ref_wav, deg_wav)
-    psnr = PSNR(ref_wav, deg_wav)
-    return si_sdr, snr, psnr
+    #psnr = PSNR(ref_wav, deg_wav)
+    #return si_sdr, snr, psnr
+    return si_sdr, snr
 
 
 def wss(ref_wav, deg_wav, srate):
