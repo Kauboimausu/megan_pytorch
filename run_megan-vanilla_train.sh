@@ -8,7 +8,7 @@ python -u train.py --save_path runs/megan_base_cloud \
     --noisy_valset data/noisy_valset \
     --epoch 86 \
     --max_samples 1500 \
-    --batch_size 50 \
+    --batch_size 60 \
     --vanilla_gan \
     --l1_weight 0 \
     --genc_fmaps    64 128 256 512 1024 2048 \
