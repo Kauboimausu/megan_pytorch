@@ -37,6 +37,7 @@ def _init_worker(noises_dir, snr_levels, base_seed):
     _ADDITIVE = Additive(noises_dir, snr_levels=snr_levels)
     np.random.seed(base_seed + os.getpid())
 
+
 def _process(args):
     clean_path, clean_out, noisy_out = args
     rate, wav_i16 = wavfile.read(clean_path)
@@ -53,10 +54,10 @@ def _process(args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--clean_dir", default="data/clean_fma")
-    parser.add_argument("--noises_dir", default="data/raw_audio/demand")
+    parser.add_argument("--clean_dir", default="data/raw_audio/clean_fma")
+    parser.add_argument("--noises_dir", default="data/raw_audio/musan_noise")
     parser.add_argument("--out_root", default="data")
-    parser.add_argument("--snr_levels", type=int, nargs='+', default=[0, 5, 10, 15])
+    parser.add_argument("--snr_levels", type=int, nargs="+", default=[0, 5, 10, 15])
     parser.add_argument("--valid_ratio", type=float, default=0.1)
     parser.add_argument("--test_ratio", type=float, default=0.1)
     parser.add_argument(
@@ -68,7 +69,7 @@ def main():
     clean_paths = sorted(glob.glob(os.path.join(opts.clean_dir, "*.wav")))
     if not clean_paths:
         raise SystemExit(f"No se encontraron archivos .wav en {opts.clean_dir}")
-    
+
     rng = random.Random(opts.seed)
     rng.shuffle(clean_paths)
     n_valid = int(round(len(clean_paths) * opts.valid_ratio))
