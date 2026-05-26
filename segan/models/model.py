@@ -243,9 +243,9 @@ class SEGAN(Model):
         self.D.optim = Dopt
         
         # Build savers for end of epoch, storing up to 3 epochs each
-        eoe_g_saver = Saver(self.G, opts.save_path, max_ckpts=3,
+        eoe_g_saver = Saver(self.G, opts.save_path, max_ckpts=1,
                             optimizer=self.G.optim, prefix='EOE_G-')
-        eoe_d_saver = Saver(self.D, opts.save_path, max_ckpts=3,
+        eoe_d_saver = Saver(self.D, opts.save_path, max_ckpts=1,
                             optimizer=self.D.optim, prefix='EOE_D-')
         num_batches = len(dloader) 
         l1_weight = l1_init

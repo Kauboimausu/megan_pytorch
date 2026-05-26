@@ -10,7 +10,7 @@ import json
 
 class Saver(object):
 
-    def __init__(self, model, save_path, max_ckpts=5, optimizer=None, prefix=''):
+    def __init__(self, model, save_path, max_ckpts=2, optimizer=None, prefix=''):
         self.model = model
         self.save_path = save_path
         self.ckpt_path = os.path.join(save_path, '{}checkpoints'.format(prefix)) 
