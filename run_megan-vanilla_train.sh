@@ -6,7 +6,7 @@ python -u train.py --save_path runs/megan_base_cloud \
 	--noisy_trainset data/noisy_trainset \
     --clean_valset data/clean_valset \
     --noisy_valset data/noisy_valset \
-    --epoch 86 \
+    --epoch 50 \
     --max_samples 1500 \
     --batch_size 60 \
     --vanilla_gan \

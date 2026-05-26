@@ -6,7 +6,7 @@ python -u train.py --save_path runs/megan_lsgan_reduced_cloud \
 	--noisy_trainset data/noisy_trainset \
     --clean_valset data/clean_valset \
     --noisy_valset data/noisy_valset \
-    --epoch 86 \
+    --epoch 50 \
     --max_samples 1500 \
     --batch_size 100 \
     --genc_fmaps    64 128 256 512 1024 \
