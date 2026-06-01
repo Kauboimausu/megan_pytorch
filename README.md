@@ -62,6 +62,14 @@ Para ejecutar los modelos preentrenados se necesitan un conjunto de datos con ru
 python clean.py --g_pretrained_ckpt <ruta de archivo con los pesos> \
 		--cfg_file <ruta de archivo híperparametros> --synthesis_path <ruta para audios limpiados> \
 		--test_files <ruta de conjunto de audios ruidosos> --soundfile
+
+```
+
+### Visualización de gráficas
+
+Para visualizar las gráficas del entrenamiento ejecutar el comando 
+```
+tensorboard --logdir runs/
 ```
 
 ![SEGAN+_G](assets/segan+.png)
